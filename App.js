@@ -11,6 +11,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import globalStyle from './assets/styles/globalStyle';
 import UserStory from './components/UserStory/UserStory';
+import UserPost from './components/UserPost/UserPost';
 const App = () => {
   const userStories = [
     {
@@ -67,6 +68,8 @@ const App = () => {
       likes: 1201,
       comments: 24,
       bookmarks: 55,
+      image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/default_profile.png'),
       id: 1,
     },
     {
@@ -76,6 +79,8 @@ const App = () => {
       likes: 1301,
       comments: 25,
       bookmarks: 70,
+      image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/default_profile.png'),
       id: 2,
     },
     {
@@ -85,6 +90,8 @@ const App = () => {
       likes: 100,
       comments: 8,
       bookmarks: 3,
+      image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/default_profile.png'),
       id: 3,
     },
     {
@@ -94,6 +101,8 @@ const App = () => {
       likes: 200,
       comments: 16,
       bookmarks: 6,
+      image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/default_profile.png'),
       id: 4,
     },
     {
@@ -103,6 +112,8 @@ const App = () => {
       likes: 2000,
       comments: 32,
       bookmarks: 12,
+      image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/default_profile.png'),
       id: 5,
     },
   ];
@@ -135,43 +146,74 @@ const App = () => {
 
   return (
     <SafeAreaView>
-      <View style={globalStyle.header}>
-        <Title title={'Let’s Explore'} />
-        <TouchableOpacity style={globalStyle.messageIcon}>
-          <FontAwesomeIcon icon={faEnvelope} size={20} color={'#898DAE'} />
-          <View style={globalStyle.messageNumberContainer}>
-            <Text style={globalStyle.messageNumber}>2</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={globalStyle.userStoryContainer}>
+      <View>
         <FlatList
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            if (isLoadingUserStories) {
-              return;
-            }
-            setIsLoadingUserStories(true);
-            const contentToAppend = pagination(
-              userStories,
-              userStoriesCurrentPage + 1,
-              userStoriesPageSize,
-            );
-            if (contentToAppend.length > 0) {
-              setUserStoriesCurrentPage(userStoriesCurrentPage + 1);
-              setUserStoriesRenderedData(prev => [...prev, ...contentToAppend]);
-            }
-            setIsLoadingUserStories(false);
-          }}
-          showsHorizontalScrollIndicator={false}
-          horizontal={true}
-          data={userStoriesRenderedData}
+          ListHeaderComponent={
+            <>
+              <View style={globalStyle.header}>
+                <Title title={'Let’s Explore'} />
+                <TouchableOpacity style={globalStyle.messageIcon}>
+                  <FontAwesomeIcon
+                    icon={faEnvelope}
+                    size={20}
+                    color={'#898DAE'}
+                  />
+                  <View style={globalStyle.messageNumberContainer}>
+                    <Text style={globalStyle.messageNumber}>2</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={globalStyle.userStoryContainer}>
+                <FlatList
+                  onEndReachedThreshold={0.5}
+                  onEndReached={() => {
+                    if (isLoadingUserStories) {
+                      return;
+                    }
+                    setIsLoadingUserStories(true);
+                    const contentToAppend = pagination(
+                      userStories,
+                      userStoriesCurrentPage + 1,
+                      userStoriesPageSize,
+                    );
+                    if (contentToAppend.length > 0) {
+                      setUserStoriesCurrentPage(userStoriesCurrentPage + 1);
+                      setUserStoriesRenderedData(prev => [
+                        ...prev,
+                        ...contentToAppend,
+                      ]);
+                    }
+                    setIsLoadingUserStories(false);
+                  }}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}
+                  data={userStoriesRenderedData}
+                  renderItem={({item}) => (
+                    <UserStory
+                      key={'userStory' + item.id}
+                      firstName={item.firstName}
+                      profileImage={item.profileImage}
+                    />
+                  )}
+                />
+              </View>
+            </>
+          }
+          data={userPosts}
+          showsVerticalScrollIndicator={false}
           renderItem={({item}) => (
-            <UserStory
-              key={'userStory' + item.id}
-              firstName={item.firstName}
-              profileImage={item.profileImage}
-            />
+            <View style={globalStyle.userPostContainer}>
+              <UserPost
+                firstName={item.firstName}
+                lastName={item.lastName}
+                image={item.image}
+                likes={item.likes}
+                comments={item.comments}
+                bookmarks={item.bookmarks}
+                profileImage={item.profileImage}
+                location={item.location}
+              />
+            </View>
           )}
         />
       </View>
