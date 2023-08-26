@@ -5,8 +5,7 @@ import {
   View,
   Text,
   FlatList,
-  Switch,
-  Platform,
+  StatusBar,
 } from 'react-native';
 import Title from './components/Title/Title';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -131,9 +130,6 @@ const App = () => {
   const [userPostsRenderedData, setUserPostsRenderedData] = useState([]);
   const [isLoadingUserPosts, setIsLoadingUserPosts] = useState(false);
 
-  const [isOn, setIsOn] = useState(false);
-  console.log(Platform);
-
   const pagination = (database, currentPage, pageSize) => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
@@ -157,6 +153,7 @@ const App = () => {
 
   return (
     <SafeAreaView>
+      <StatusBar backgroundColor={'red'} barStyle={'light-content'} />
       <View>
         <FlatList
           ListHeaderComponent={
@@ -173,29 +170,6 @@ const App = () => {
                     <Text style={globalStyle.messageNumber}>2</Text>
                   </View>
                 </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                }}>
-                <Switch
-                  value={isOn}
-                  style={
-                    Platform.OS === 'android' && {
-                      transform: [{scaleX: 1.5}, {scaleY: 1.5}],
-                    }
-                  }
-                  ios_backgroundColor={'#000'}
-                  trackColor={
-                    Platform.OS === 'android' && {
-                      false: 'grey',
-                      true: 'red',
-                    }
-                  }
-                  onValueChange={value => setIsOn(value)}
-                />
               </View>
               <View style={globalStyle.userStoryContainer}>
                 <FlatList
