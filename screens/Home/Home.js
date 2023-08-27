@@ -14,7 +14,8 @@ import UserStory from '../../components/UserStory/UserStory';
 import UserPost from '../../components/UserPost/UserPost';
 import {scaleFontSize} from '../../assets/styles/scaling';
 import globalStyle from '../../assets/styles/globalStyle';
-const Home = () => {
+import {Routes} from '../../navigation/Routes';
+const Home = ({navigation}) => {
   const userStories = [
     {
       firstName: 'Joseph',
@@ -159,7 +160,11 @@ const Home = () => {
             <>
               <View style={style.header}>
                 <Title title={'Let’s Explore'} />
-                <TouchableOpacity style={style.messageIcon}>
+                <TouchableOpacity
+                  style={style.messageIcon}
+                  onPress={() => {
+                    navigation.navigate(Routes.Profile);
+                  }}>
                   <FontAwesomeIcon
                     icon={faEnvelope}
                     size={scaleFontSize(20)}
