@@ -19,12 +19,12 @@ const style = StyleSheet.create({
   },
   username: {
     color: '#000',
-    fontFamily: getFontFamily('Inter', 600),
+    fontFamily: getFontFamily('Inter', '600'), //this font weight should have been a string
     fontSize: scaleFontSize(16),
   },
   location: {
     color: '#79869F',
-    fontFamily: getFontFamily('Inter', 400),
+    fontFamily: getFontFamily('Inter', '400'), //this font weight should have been a string
     fontSize: scaleFontSize(12),
     marginTop: verticalScale(5),
   },
